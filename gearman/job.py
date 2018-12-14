@@ -16,7 +16,7 @@ class GearmanJob(object):
         return dict(task=self.task, job_handle=self.handle, unique=self.unique, data=self.data, when_to_run=self.when_to_run)
 
     def __repr__(self):
-        return '<GearmanJob connection/handle=(%r, %r), task=%s, unique=%s, data=%r, when_to_run=%d>' % (self.connection, self.handle, self.task, self.unique, self.data, self.when_to_run)
+        return '<GearmanJob connection/handle=(%r, %r), task=%s, unique=%s, data=%r, when_to_run=%r>' % (self.connection, self.handle, self.task, self.unique, self.data, self.when_to_run)
 
 class GearmanJobRequest(object):
     """Represents a job request... used in GearmanClient to represent job states"""
