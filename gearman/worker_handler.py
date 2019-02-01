@@ -120,7 +120,7 @@ class GearmanWorkerCommandHandler(GearmanCommandHandler):
 
         return True
 
-    def recv_job_assign_uniq(self, job_handle, task, unique, data):
+    def recv_job_assign_uniq(self, job_handle, task, unique, data, when_to_run=None):
         """Transition from being AWAITING_JOB --> EXECUTE_JOB --> SLEEP
 
         AWAITING_JOB -> EXECUTE_JOB -> SLEEP :: Always transition once we're given a job
@@ -131,7 +131,7 @@ class GearmanWorkerCommandHandler(GearmanCommandHandler):
         if not self.connection_manager.check_job_lock(self):
             raise InvalidWorkerState("Received a job when we weren't expecting one")
 
-        gearman_job = self.connection_manager.create_job(self, job_handle, task, unique, self.decode_data(data))
+        gearman_job = self.connection_manager.create_job(self, job_handle, task, unique, self.decode_data(data), when_to_run)
 
         # Create a new job
         self.connection_manager.on_job_execute(gearman_job)
@@ -142,6 +142,7 @@ class GearmanWorkerCommandHandler(GearmanCommandHandler):
 
         return True
 
-    def recv_job_assign(self, job_handle, task, data):
+    def recv_job_assign(self, job_handle, task, data, when_to_run=None):
         """JOB_ASSIGN and JOB_ASSIGN_UNIQ are essentially the same"""
-        return self.recv_job_assign_uniq(job_handle=job_handle, task=task, unique=None, data=data)
+        return self.recv_job_assign_uniq(job_handle=job_handle, task=task, unique=None, data=data,
+                                         when_to_run=when_to_run)
