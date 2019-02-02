@@ -207,10 +207,10 @@ class GearmanWorker(GearmanConnectionManager):
     #####################################################
     ##### Callback methods for GearmanWorkerHandler #####
     #####################################################
-    def create_job(self, command_handler, job_handle, task, unique, data):
+    def create_job(self, command_handler, job_handle, task, unique, data, when_to_run=None):
         """Create a new job using our self.job_class"""
         current_connection = self.handler_to_connection_map[command_handler]
-        return self.job_class(current_connection, job_handle, task, unique, data, None)
+        return self.job_class(current_connection, job_handle, task, unique, data, when_to_run)
 
     def on_job_execute(self, current_job):
         try:
